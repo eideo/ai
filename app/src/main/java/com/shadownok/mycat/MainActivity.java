@@ -95,7 +95,7 @@ public class MainActivity extends Activity {
     private void startWakeUpService() {
         Intent intent = new Intent(this, WakeUpService.class);
         stopService(intent);
-        intent.putExtra("mode", getMode());
+        // intent.putExtra("mode", getMode());
         startService(intent);
         Toast.makeText(this, "^_^，小爱同学", Toast.LENGTH_SHORT).show();
     }

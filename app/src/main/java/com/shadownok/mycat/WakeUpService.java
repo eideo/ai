@@ -38,7 +38,7 @@ public class WakeUpService extends Service implements EventListener {
 
     private EventManager wakeup;
     private Handler handler = new Handler();
-    private int mode = 1;
+    private int mode = MainActivity.MODE_WAKEUP;
     private boolean isWakeUp = false;
 
 
@@ -46,6 +46,9 @@ public class WakeUpService extends Service implements EventListener {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mode = getWakeupMode();
+
         LogUtil.getInstance().e("WakeUpService", "onCreate: 后台服务开启");
         File f1 = new File(MainActivity.CUSTOM_WAKEUP);
         if (!f1.exists()) {
@@ -103,9 +106,7 @@ public class WakeUpService extends Service implements EventListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getExtras() != null) {
-            mode = intent.getExtras().getInt("mode");
-        }
+
         return START_STICKY;
     }
 
@@ -123,6 +124,10 @@ public class WakeUpService extends Service implements EventListener {
     private String getWakeupAppName() {
         SharedPreferences sharedPreferences = getSharedPreferences("WAKEUP", MODE_PRIVATE);
         return sharedPreferences.getString("name", "小爱同学");
+    }
+    private int getWakeupMode () {
+        SharedPreferences sharedPreferences = getSharedPreferences("WAKEUP", MODE_PRIVATE);
+        return sharedPreferences.getInt("mode", MainActivity.MODE_WAKEUP);
     }
 
     private void wakeup() {

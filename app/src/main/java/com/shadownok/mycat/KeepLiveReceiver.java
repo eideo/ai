@@ -15,12 +15,12 @@ public class KeepLiveReceiver extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
             Intent intent = new Intent(context, WakeUpService.class);
-            intent.putExtra("mode", getMode(context));
+            //intent.putExtra("mode", getMode(context));
             context.startService(intent);
     }
 
-    private int getMode(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MODE", Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("mode", MODE_WAKEUP);
-    }
+//    private int getMode(Context context) {
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("MODE", Context.MODE_PRIVATE);
+//        return sharedPreferences.getInt("mode", MODE_WAKEUP);
+//    }
 }

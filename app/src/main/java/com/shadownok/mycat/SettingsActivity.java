@@ -27,9 +27,10 @@ public class SettingsActivity extends Activity {
 
     List<PackageInfo> packs;
 
-    private void setWakupApp(String pkg) {
+    private void setWakupApp(String pkg, String name) {
         SharedPreferences sharedPreferences = getSharedPreferences("WAKEUP", MODE_PRIVATE);
         sharedPreferences.edit().putString("pkg", pkg).commit();
+        sharedPreferences.edit().putString("name", name).commit();
     }
 
 
@@ -61,7 +62,7 @@ public class SettingsActivity extends Activity {
                     Toast.makeText(SettingsActivity.this, "你是不是想搞事情", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                setWakupApp(pkg);
+                setWakupApp(pkg, packs.get(position).applicationInfo.loadLabel(getPackageManager()).toString());
                 finish();
             }
         });

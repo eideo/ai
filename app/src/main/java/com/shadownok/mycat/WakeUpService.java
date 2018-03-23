@@ -59,6 +59,9 @@ public class WakeUpService extends Service implements EventListener {
         } else {
             LogUtil.getInstance().e("WakeUpService", "onCreate: 发现自定义唤醒音效文件WakeUp.mp3，使用自定义唤醒音效");
         }
+
+        LogUtil.getInstance().e("WakeUpService", "onCreate: 当前唤醒APP -> "+getWakeupAppName());
+
         f1 = null;
         wakeup = EventManagerFactory.create(this, "wp");
         wakeup.registerListener(this); //  EventListener 中 onEvent方法
@@ -117,6 +120,10 @@ public class WakeUpService extends Service implements EventListener {
         SharedPreferences sharedPreferences = getSharedPreferences("WAKEUP", MODE_PRIVATE);
         return sharedPreferences.getString("pkg", "com.miui.voiceassist");
     }
+    private String getWakeupAppName() {
+        SharedPreferences sharedPreferences = getSharedPreferences("WAKEUP", MODE_PRIVATE);
+        return sharedPreferences.getString("name", "小爱同学");
+    }
 
     private void wakeup() {
         handler.postDelayed(new Runnable() {
@@ -161,7 +168,7 @@ public class WakeUpService extends Service implements EventListener {
     private void stop(boolean isError) {
         LogUtil.getInstance().e("WakeUpService", "stop: 停止唤醒，释放MIC");
         wakeup.send(SpeechConstant.WAKEUP_STOP, null, null, 0, 0); //
-        if (mode == 1 || isError) {
+        if (mode == MainActivity.MODE_WAKEUP || isError) {
             LogUtil.getInstance().e("WakeUpService", "stop: 唤醒对话模式，等待重新开启唤醒");
             handler.postDelayed(new Runnable() {
                 @Override
